@@ -2,13 +2,27 @@
   "name": "@aztec-otc-desk/contracts",
   "devDependencies": {
       "@types/bun": "catalog:",
+      "@types/jest": "catalog:",
       "@aztec/aztec.js": "catalog:",
-      "@aztec/accounts": "catalog:"
+      "@aztec/accounts": "catalog:",
+      "@aztec/ethereum": "catalog:",
+      "@aztec/stdlib": "catalog:",
+      "@aztec/noir-contracts.js": "catalog:",
+      "jest": "catalog:"
   },
   "peerDependencies": {
     "typescript": "catalog:"
   },
   "scripts": {
-    "deploy-token": "bun run ./scripts/deploy_token.ts"
+    "test": "bun test",
+    "deploy-token": "bun run ./scripts/deploy_token.ts",
+    "compile": "aztec-nargo compile",
+    "codegen": "aztec codegen target --outdir artifacts",
+    "build": "yarn compile && yarn codegen -f",
+    "sandbox": "NO_PXE=true aztec start --sandbox",
+    "pxe": "LOG_LEVEL=info aztec start --pxe --pxe.nodeUrl http://localhost:8080 --pxe.proverEnabled false",
+    "pxe:1": "bun run pxe --port 8081 --p2p.p2pPort 40401",
+    "pxe:2": "bun run pxe --port 8082 --p2p.p2pPort 40402"
+
   }
 }

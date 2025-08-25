@@ -1,0 +1,22 @@
+services:
+  aztec:
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://aztec:8080/status"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+
+  alternative-pxe:
+    image: "aztecprotocol/aztec:latest"
+    ports:
+      - "${PXE_PORT:-8081}:${PXE_PORT:-8081}"
+    environment:
+      LOG_LEVEL: '${LOG_LEVEL:-info; verbose: simulator:avm:debug_log}'
+      HOST_WORKDIR: "${PWD}"
+      VERSION: latest
+    volumes:
+      - ./pxe/log:/usr/src/yarn-project/aztec/log:rw
+    depends_on:
+      aztec:
+        condition: service_healthy
+    command: "start --port 8081 --pxe --pxe.nodeUrl=http://aztec:8080"
