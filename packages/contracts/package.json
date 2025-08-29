@@ -14,15 +14,14 @@
     "typescript": "catalog:"
   },
   "scripts": {
-    "test": "bun test",
+    "test": "bun run test:nr && bun test",
+    "test:nr": "LOG_LEVEL=debug aztec test",
     "deploy-token": "bun run ./scripts/deploy_token.ts",
     "compile": "aztec-nargo compile",
     "codegen": "aztec codegen target --outdir artifacts",
     "build": "yarn compile && yarn codegen -f",
-    "sandbox": "NO_PXE=true aztec start --sandbox",
+    "sandbox": "aztec start --sandbox",
     "pxe": "LOG_LEVEL=info aztec start --pxe --pxe.nodeUrl http://localhost:8080 --pxe.proverEnabled false",
-    "pxe:1": "bun run pxe --port 8081 --p2p.p2pPort 40401",
-    "pxe:2": "bun run pxe --port 8082 --p2p.p2pPort 40402"
-
+    "pxe:1": "bun run pxe --port 8081 --p2p.p2pPort 40401"
   }
 }
